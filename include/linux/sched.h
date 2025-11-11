@@ -1096,8 +1096,8 @@ struct task_struct {
 	struct nameidata		*nameidata;
 
 #ifdef CONFIG_SYSVIPC
-	struct sysv_sem			sysvsem;
-	struct sysv_shm			sysvshm;
+//	struct sysv_sem			sysvsem;
+//	struct sysv_shm			sysvshm;
 #endif
 #ifdef CONFIG_DETECT_HUNG_TASK
 	unsigned long			last_switch_count;
@@ -1547,9 +1547,20 @@ struct task_struct {
 	union rv_task_monitor		rv[RV_PER_TASK_MONITORS];
 #endif
 	ANDROID_KABI_USE(1, unsigned int saved_state);
-	ANDROID_KABI_RESERVE(2);
-	ANDROID_KABI_RESERVE(3);
+#if defined(CONFIG_SYSVIPC)
+	// struct sysv_sem			sysvsem;
+	ANDROID_KABI_USE(2, struct sysv_sem sysvsem);
+	// struct sysv_shm			sysvshm;
+	_ANDROID_KABI_REPLACE(ANDROID_KABI_RESERVE(3); ANDROID_KABI_RESERVE(4),
+						  struct sysv_shm sysvshm);
+/*                 if your device still bootloop in starting or when running lxc or docker ,use others Android KABI reserve, it may be ok ! we don't know which reserve KABI is uesd .
+e.g. :    ANDROID_KABI_USE(3, struct sysv_sem sysvsem);      and  _ANDROID_KABI_REPLACE(ANDROID_KABI_RESERVE(4); ANDROID_KABI_RESERVE(5),
+						  struct sysv_shm sysvshm); */
+#else
+ 	ANDROID_KABI_RESERVE(2);
+ 	ANDROID_KABI_RESERVE(3);
 	ANDROID_KABI_RESERVE(4);
+#endif
 	ANDROID_KABI_RESERVE(5);
 	ANDROID_KABI_RESERVE(6);
 	ANDROID_KABI_RESERVE(7);
