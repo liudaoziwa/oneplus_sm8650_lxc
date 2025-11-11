@@ -167,6 +167,12 @@ struct net {
 #if IS_ENABLED(CONFIG_IP_VS)
 	struct netns_ipvs	*ipvs;
 #endif
+/*
+it may be ok ! if bootloop ,disable CONFIG_IP_VS , see kernelsource android/abi_gki_aarch64.stg line 248791-248792
+search the follwing strings:
+  kind: STRUCT
+  name: "net"
+*/
 #if IS_ENABLED(CONFIG_MPLS)
 	struct netns_mpls	mpls;
 #endif
