@@ -19,7 +19,7 @@ done
 
 
 git clone --depth=1 https://github.com/liudaoziwa/android_kernel_modules_and_devicetree_oneplus_sm8650/ vendor
-mv vendor/vendor /
+mv vendor/vendor ../../
 rm -rf vendor
 #The clang LTO default configuration is FULL LTO , modify gki_defconfig to enable THIN LTO
 
